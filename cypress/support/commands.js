@@ -60,36 +60,39 @@ Cypress.Commands.add('createExperiment', (title,id_experiment) =>{
     method: 'POST',
     url: Cypress.env('apiUrl')+"/experiment",
     failOnStatusCode: false,
-    headers: { 
-      'Authorization': 'Bearer '+ Cypress.env('accessToken'),       
-    },
+
     body:{
       "title": title,
       "platform": "web"
+    },
+    headers: { 
+      'Authorization': 'Bearer '+ Cypress.env('accessToken'),       
     }
+   
   }).as('createExperiment')
   .then((response) => {
     expect(response.status).to.eq(201)
-    Cypress.env(id_experiment, response.body.id)
+    Cypress.env(id_experiment, response.body.data.id)
   })
 })
 
-Cypress.Commands.add('createSlide', (title,id_experiment, id_slide) =>{
+Cypress.Commands.add('createSlide', ( id_experiment, id_slide) =>{
   cy.request({
     method: 'POST',
     url: Cypress.env('apiUrl')+"/slide",
     failOnStatusCode: false,
+
+    body:{
+      "experimentId": Cypress.env(id_experiment)
+    },
     headers: { 
       'Authorization': 'Bearer '+ Cypress.env('accessToken'),       
-    },
-    body:{
-      "title": title,
-      "experimentId": Cypress.env(id_experiment)
     }
+   
   }).as('createSlide')
   .then((response) => {
     expect(response.status).to.eq(201)
-    Cypress.env(id_slide, response.body.id)
+    Cypress.env(id_slide, response.body.data.slide.id)
   })
 })
 

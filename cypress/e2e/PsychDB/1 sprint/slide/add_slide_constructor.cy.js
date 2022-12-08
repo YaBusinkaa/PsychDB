@@ -18,7 +18,6 @@ describe("Слайд", () => {
         cy.login()
         cy.getExperiments()
         cy.deleteExperiment()
-        cy.createExperiment('testtest', 'id_title')
         cy.visit(Cypress.env('baseUrl'))
         .wait(2000)
         cy.wait("@matchedUrl")
@@ -26,14 +25,28 @@ describe("Слайд", () => {
         cy.contains("Конструктор")
         .click({force: true})
         .wait(400)
+
+        cy.get('input[type="text"]')
+        .eq(0)
+        .type('testtest')
+        .wait(400)
+
+        cy.contains('Для настольных компьютеров')
+        .click()
+        .wait(400)
+
+        cy.contains('Создать эксперимент')
+        .click()
+        .wait(400)
         
     })
 
     afterEach(()=>{
         cy.getExperiments()
+        cy.deleteExperiment()
     })
 
-    it ("оригинальный сценарий - редактирование стилей слайда", () => {
+    it.skip ("оригинальный сценарий - создание и переименование (1 символ в названии)", () => {
 
         //добавление слайда
     cy.wait(700)
@@ -48,45 +61,9 @@ describe("Слайд", () => {
     cy.get('input[value="Слайд 2"]')
     .clear()
     .type('t')
-
-
-    // //применение стиля для слайда
-    // cy.contains("СТИЛИ").click({force: true})
-    // cy.get('[type="text"]').click({force: true})
-    // cy.get('[value="#FFFFFF"]').click({force: true}).clear().wait(700).type("#bf28a6").wait(500)
-
-    // //применение стиля для всех слайдов
-    // cy.contains("СТИЛИ").click({force: true}).wait(500)
-    // cy.contains("Применить ко всем слайдам").click({force: true}).wait(500)
-    // cy.contains("СТИЛИ").click({force: true}).wait(500)
-
-    // //проверка предыдущего шага 
-    // cy.contains("Слайд 1").click({force: true})
-    // cy.get('[color="#bf28a6"]').should('exist').wait(500)
-
-    // cy.contains("Слайд 2").click({force: true})
-    // cy.get('[color="#bf28a6"]').should('exist').wait(500)
-
-    // cy.contains("Слайд 3").click({force: true})
-    // cy.get('[color="#bf28a6"]').should('exist').wait(500)
-
-    // cy.contains("Слайд 4").click({force: true})
-    // cy.get('[color="#bf28a6"]').should('exist').wait(500)
-
-    // cy.contains("testtest").click({force: true})
-    // cy.get('[color="#bf28a6"]').should('exist').wait(500)
-
-    // //проверка на уникальность названия слайда 
-    // cy.get('[data-testid="AddCircleOutlineOutlinedIcon"]').click({force: true}).wait(1000)
-    // cy.contains("Слайд 1").click({force: true}).wait(1000)
-    // cy.get('[type="text"]').clear().type('testtest').wait(1000)
-    // cy.contains('Эксперимент с таким названием уже существует')
-    // .should('exist')
-
-
     })
 
-    it.skip ("Создание и повторное название", () => {
+    it.skip ("альтернативный сценарий - существующее название слайда", () => {
 
         //добавление слайда
 
@@ -112,7 +89,7 @@ describe("Слайд", () => {
     // cy.contains("Отмена").parent().contains('Удалить').click({force: true}).wait(1000)
 
     })
-    it ("Пустое поле названия слайда", () => {
+    it ("альтернативный сценарий - Пустое поле названия слайда", () => {
 
         //добавление слайда
 
