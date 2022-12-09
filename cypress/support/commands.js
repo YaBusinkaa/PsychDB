@@ -94,6 +94,7 @@ Cypress.Commands.add('createSlide', ( id_experiment, id_slide) =>{
     expect(response.status).to.eq(201)
     Cypress.env(id_slide, response.body.data.slide.id)
   })
+
 })
 
 Cypress.Commands.add('deleteSlide', () =>{
@@ -105,15 +106,20 @@ Cypress.Commands.add('deleteSlide', () =>{
       'Authorization': 'Bearer '+ Cypress.env('accessToken'),       
     },
   }).as('deleteSlide')
+  
 })
 
-Cypress.Commands.add('deleteExperiment', () =>{
+Cypress.Commands.add('deleteExperiment', (id_experiment) =>{
   cy.request({
     method: 'DELETE',
-    url: Cypress.env('apiUrl')+"/experiment/"+Cypress.env('id_experiment'),
+    url: Cypress.env('apiUrl')+"/experiment/"+Cypress.env(id_experiment),
     failOnStatusCode: false,
     headers: { 
       'Authorization': 'Bearer '+ Cypress.env('accessToken'),       
     },
   }).as('deleteExperiment')
+  .then((response) => {
+      expect(response.status).to.eq(200)
+      expect(response.body.message).to.eq('эксперимент успешно удалён')
+    })
 })
