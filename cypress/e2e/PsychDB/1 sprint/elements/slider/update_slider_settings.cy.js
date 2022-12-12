@@ -26,8 +26,8 @@ describe("редактирование настроек слайдера", () =>
         }).as('matchedElement')
 
         cy.login()
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
         cy.createExperiment('testtest', 'id_experiment')
 
         cy.visit(Cypress.env('baseUrl'))
@@ -55,13 +55,13 @@ describe("редактирование настроек слайдера", () =>
         cy.wait('@matchedElement').then(({ response }) => {
             expect(response.statusCode).to.eq(200)
 
-        })    
+        })
 
     })
 
     afterEach(() => {
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
     })
 
     it.skip("оригинальный сценарий - редактирование настроек слайдера (1 символ названия, удаление шкалы, смена верного ответа)", () => {
@@ -72,27 +72,27 @@ describe("редактирование настроек слайдера", () =>
         cy.wait(1000)
 
         cy.get('input[value="slider 11"]')
-        .clear()
-        .type('t')
-        
+            .clear()
+            .type('t')
+
         cy.wait(700)
 
         cy.get('input[value="Ответ 2"]')
-        .parent()
-        .parent()
-        .parent()
-        .find('[type="radio"]')
-        .click()
-        .should('be.checked')
-                    
-         cy.contains('Удалить шкалу')
-        .click()
+            .parent()
+            .parent()
+            .parent()
+            .find('[type="radio"]')
+            .click()
+            .should('be.checked')
+
+        cy.contains('Удалить шкалу')
+            .click()
 
         cy.contains("Отмена")
-        .parent()
-        .contains('Удалить')
-        .click({force: true})
-        .wait(1000)
+            .parent()
+            .contains('Удалить')
+            .click({ force: true })
+            .wait(1000)
 
         cy.wait('@matchedDeleteSlider').then(({ response }) => {
             expect(response.statusCode).to.eq(200)
@@ -108,11 +108,13 @@ describe("редактирование настроек слайдера", () =>
         cy.wait(1000)
 
         cy.get('input[value="slider 11"]')
-        .clear()
-        .type('Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed dia')
-        .parent()
-        .find('fieldset')
-        .should('have.css', 'border-color', 'rgb(244, 67, 54)')
+            .clear()
+            .type('Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed dia')
+            .parent()
+            .find('fieldset')
+            .should('have.css', 'border-color', 'rgb(244, 67, 54)')
     })
+
+
 
 })

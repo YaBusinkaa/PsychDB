@@ -1,4 +1,4 @@
-describe("редактирование настроек слайдера", () => {
+describe("редактирование настроек эксперимента", () => {
 
     before('Выполняется один раз, не перед каждым тестом!', () => {
         cy.register()
@@ -16,12 +16,14 @@ describe("редактирование настроек слайдера", () =>
         }).as('matchedRow')
 
         cy.intercept({
-            method: 'DELETE',
-            url: '**/slide/**',
-        }).as('matchedSlide')
+            method: 'PATCH',
+            url: '**/experiment/settings/**',
+        }).as('matchedUpdateExperiment')
 
         cy.login()
         cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
+        cy.getExperiments('t', 'id_experiment')
         cy.deleteExperiment('id_experiment')
         cy.createExperiment('testtest', 'id_experiment')
 
@@ -29,8 +31,6 @@ describe("редактирование настроек слайдера", () =>
             .wait(2000)
 
         cy.wait("@matchedUrl")
-
-
 
         cy.get('[type="button"]')
             .contains('В конструктор')
@@ -40,41 +40,31 @@ describe("редактирование настроек слайдера", () =>
     })
 
     afterEach(() => {
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('t', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
     })
 
-    it("оригинальный сценарий - редактирование и удаление слайда ", () => {
+    it("оригинальный сценарий - добавление слайдера, некоррекные символы, пустое поле ответов", () => {
 
-        cy.get('input[value="Слайд 1"]')
-        .clear()
-        .type('t')
-        
-        cy.wait(700)
-
-        cy.get('[data-testid="AddCircleOutlineOutlinedIcon"]')
+        cy.get('[data-testid="SettingsOutlinedIcon"]')
         .click()
         .wait(700)
+
+        cy.get('input[value="testtest"]')
+        .clear()
+        .type('t')
     
-        cy.contains('Слайд 2')
-        .should('exist')
-            
-        cy.contains('Удалить слайд')
+        cy.get('input[value="Петр Петров"]')
+        .clear()
+        .type('t')
+
+        cy.contains('Сохранить изменения')
         .click()
-        .wait(1000) 
 
-        cy.contains("Отмена")
-        .parent()
-        .contains('Удалить')
-        .click({force: true})
-        .wait(1000)
-
-        cy.wait('@matchedSlide').then(({ response }) => {
+        cy.wait('@matchedUpdateExperiment').then(({ response }) => {
             expect(response.statusCode).to.eq(200)
         })
 
     })
-
-    
 
 })

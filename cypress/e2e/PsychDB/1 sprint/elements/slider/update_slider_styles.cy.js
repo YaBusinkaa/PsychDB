@@ -11,8 +11,8 @@ describe("редактирование стилей слайдера", () => {
         }).as('matchedUrl')                           // Перехватываем get запрос auth me
 
         cy.login()
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
         cy.createExperiment('testtest', 'id_experiment')
 
         cy.visit(Cypress.env('baseUrl'))
@@ -28,8 +28,8 @@ describe("редактирование стилей слайдера", () => {
     })
 
     afterEach(() => {
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
     })
 
     it("оригинальный сценарий - изменение стилей слайдера", () => {

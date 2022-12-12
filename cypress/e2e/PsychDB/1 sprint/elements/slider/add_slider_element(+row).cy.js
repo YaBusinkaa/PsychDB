@@ -26,8 +26,8 @@ describe("добавление слайдера и строки", () => {
         }).as('matchedDeleteElement')
 
         cy.login()
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
         cy.createExperiment('testtest', 'id_experiment')
 
         cy.visit(Cypress.env('baseUrl'))
@@ -51,8 +51,8 @@ describe("добавление слайдера и строки", () => {
     })
 
     afterEach(() => {
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
     })
 
     it.skip("оригинальный сценарий - добавление слайдера, некоррекные символы, пустое поле ответов", () => {

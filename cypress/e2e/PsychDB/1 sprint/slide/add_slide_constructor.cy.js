@@ -16,8 +16,8 @@ describe("Слайд", () => {
         }).as('matchedPatch') 
 
         cy.login()
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
         cy.visit(Cypress.env('baseUrl'))
         .wait(2000)
         cy.wait("@matchedUrl")
@@ -42,8 +42,8 @@ describe("Слайд", () => {
     })
 
     afterEach(()=>{
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
     })
 
     it.skip ("оригинальный сценарий - создание и переименование (1 символ в названии)", () => {

@@ -34,7 +34,7 @@ Cypress.Commands.add('login', () =>{
   })
 })
 
-Cypress.Commands.add('getExperiments', () =>{
+Cypress.Commands.add('getExperiments', (title, id_experiment) =>{
   cy.request({
     method: 'GET',
     url: Cypress.env('apiUrl')+"/experiment/own/all/1?sortBy=datePublished&order=desc",
@@ -46,9 +46,8 @@ Cypress.Commands.add('getExperiments', () =>{
   .then((resp) => {
     expect(resp.status).to.eq(200)
     for(let i = 0; i < resp.body.data.experiments.length; i++){
-      if(resp.body.data.experiments[i].title == 'testtest'){
-        Cypress.env('id_experiment', resp.body.data.experiments[i].id)
-        cy.log(Cypress.env('id_experiment'))
+      if(resp.body.data.experiments[i].title == title){
+        Cypress.env(id_experiment, resp.body.data.experiments[i].id)
         break
       }
     }
@@ -107,10 +106,10 @@ Cypress.Commands.add('deleteSlide', () =>{
   }).as('deleteSlide')
 })
 
-Cypress.Commands.add('deleteExperiment', () =>{
+Cypress.Commands.add('deleteExperiment', (id_experiment) =>{
   cy.request({
     method: 'DELETE',
-    url: Cypress.env('apiUrl')+"/experiment/"+Cypress.env('id_experiment'),
+    url: Cypress.env('apiUrl')+"/experiment/"+Cypress.env(id_experiment),
     failOnStatusCode: false,
     headers: { 
       'Authorization': 'Bearer '+ Cypress.env('accessToken'),       

@@ -16,8 +16,8 @@ describe("редактирование стилей слайда", () => {
         }).as('matchedPatch')
 
         cy.login()
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
         cy.createExperiment('testtest', 'id_experiment')
         //cy.createSlide('id_experiment', 'id_slide')
 
@@ -34,8 +34,8 @@ describe("редактирование стилей слайда", () => {
     })
 
     afterEach(() => {
-        cy.getExperiments()
-        cy.deleteExperiment()
+        cy.getExperiments('testtest', 'id_experiment')
+        cy.deleteExperiment('id_experiment')
     })
 
     it("оригинальный сценарий - редактирование стилей слайда", () => {
