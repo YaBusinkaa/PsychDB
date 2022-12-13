@@ -31,7 +31,7 @@ module.exports = defineConfig({
     
 
     /* ЛОГИН */
-    regMail: "moroxaj945@rubeshi.com",
+    regMail: "veter97089@nazyno.com",
     invalidMail: "1234567",
     maxSymbolMail: "testetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttestetstesttestetsttestetstesttest@mail.ru",
     unRegMail: "", //генератор?
